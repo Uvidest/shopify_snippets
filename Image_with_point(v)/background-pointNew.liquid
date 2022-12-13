@@ -1,0 +1,590 @@
+<div class="iwp">
+    <div class="iwp_desktopImg" data-width="{{section.settings.width_area}}">
+        <img src="{{section.settings.img_d | img_url: 'master'}}" alt="{{section.settings.img_d.alt}}">
+    </div>
+    <div class="iwp_mobileImg">
+        <img src="{{section.settings.img_m | img_url: 'master'}}" alt="{{section.settings.img_m.alt}}">
+    </div>
+    <div class="iwp_wrap iwp_wrap-desktop">
+        {% for block in section.blocks %}
+            <div class="iwp_point iwp_point--{{forloop.index}}">
+                <div class="iwp_point-item iwp_point-item ">
+                    <span class="iwp_point-subItem"> </span>
+                </div>
+                <div class="iwp_point-text iwp_point-text-align-{{block.settings.alignD}}">
+                    <a href="{{block.settings.url_point}}">
+                        <span>
+                            {{block.settings.text_point}}
+                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.9397 4.35192C12.9758 3.93928 12.6705 3.5755 12.2579 3.5394L5.53359 2.9511C5.12095 2.915 4.75717 3.22024 4.72107 3.63288C4.68497 4.04552 4.99021 4.40929 5.40285 4.44539L11.38 4.96833L10.8571 10.9455C10.821 11.3581 11.1262 11.7219 11.5389 11.758C11.9515 11.7941 12.3153 11.4889 12.3514 11.0762L12.9397 4.35192ZM3.48209 12.5745L12.6746 4.86108L11.7104 3.71202L2.51791 11.4255L3.48209 12.5745Z" fill="white"/>
+                            </svg>
+                        </span>
+                    </a>
+                    <svg class="point_line" width="307" height="23" viewBox="0 0 307 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 1H21L37 22H306.5" stroke="white" stroke-width="2"/>
+                     </svg>    
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="iwp_wrap iwp_wrap-mobile">
+        {% for block in section.blocks %}
+            <div class="iwp_point iwp_point--{{forloop.index}}">
+                <div class="iwp_point-item ">
+                    <span class="iwp_point-subItem"> </span>
+                </div>
+                <div class="iwp_point-text iwp_point-text-align-{{block.settings.alignM}}">
+                    <a href="{{block.settings.url_point}}">
+                        <span>
+                            {{block.settings.text_point}}
+                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.9397 4.35192C12.9758 3.93928 12.6705 3.5755 12.2579 3.5394L5.53359 2.9511C5.12095 2.915 4.75717 3.22024 4.72107 3.63288C4.68497 4.04552 4.99021 4.40929 5.40285 4.44539L11.38 4.96833L10.8571 10.9455C10.821 11.3581 11.1262 11.7219 11.5389 11.758C11.9515 11.7941 12.3153 11.4889 12.3514 11.0762L12.9397 4.35192ZM3.48209 12.5745L12.6746 4.86108L11.7104 3.71202L2.51791 11.4255L3.48209 12.5745Z" fill="white"/>
+                            </svg>
+                        </span>
+                    </a>
+                    <svg class="point_line" width="307" height="23" viewBox="0 0 307 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 1H21L37 22H306.5" stroke="white" stroke-width="2"/>
+                     </svg> 
+                    <svg class="point_line point_lineM" width="271" height="24" viewBox="0 0 271 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 0.5V23H270.5" stroke="white" stroke-width="2"/>
+                    </svg>                            
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{%- style -%}
+    .iwp {
+        margin: 0 auto;
+        width: 100%;
+        max-width: {{section.settings.width_img}}px;
+        height: {{section.settings.height_img}}px;
+        padding-top: {{ section.settings.st }}px;
+        padding-bottom: {{ section.settings.sb }}px;
+    }
+    .iwp_wrap {
+        margin: 0 auto;
+        max-width: {{section.settings.width_area}}px;
+        height: 100%;
+    }
+    {% for block in section.blocks %}
+        {%- assign top = block.settings.topD -%}
+        {%- assign left = block.settings.leftD -%}
+        .iwp_point--{{forloop.index}} {
+            position: absolute;
+            top: {{top}}%;
+            left: {{left}}%;
+            cursor: pointer;
+        }
+    {% endfor %}
+
+    @media(max-width: 568px) {
+        .iwp {
+            padding-top: {{ section.settings.stm }}px;
+            padding-bottom: {{ section.settings.sbm }}px;
+        }
+    }
+    @media(max-width: 568px) {
+        {% for block in section.blocks %}
+        {%- assign topM = block.settings.topM -%}
+        {%- assign leftM = block.settings.leftM -%}
+        .iwp_point--{{forloop.index}} {
+            position: absolute;
+            top: {{topM}}%;
+            left: {{leftM}}%;
+        }
+    {% endfor %}
+    }
+{%- endstyle -%}
+<script>
+    let points = document.querySelectorAll(".iwp_point");
+    points.forEach((point,index)=> {
+        points[index].addEventListener("click", function() {
+            this.classList.toggle("__activePoint")
+        })
+    })
+</script>
+
+{% schema %}
+{
+    "name": "Image with point(v)",
+    "max_blocks": 4,
+    "blocks": [
+        {
+            "type": "point",
+            "name": "point",
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "Text"
+                },
+                {
+                    "type": "text",
+                    "id": "text_point",
+                    "label": "Text point"
+                },
+                {
+                    "type": "url",
+                    "id": "url_point",
+                    "label": "Url point"
+                },
+                {
+                    "type": "header",
+                    "content": "Position for point desktop"
+                },
+                {
+                    "type": "range",
+                    "id": "topD",
+                    "label": "Top",
+                    "unit": "%",
+                    "min": -150,
+                    "max": 150,
+                    "step": 5,
+                    "default": 0
+                },
+                {
+                    "type": "range",
+                    "id": "leftD",
+                    "label": "left",
+                    "unit": "%",
+                    "min": -150,
+                    "max": 150,
+                    "step": 5,
+                    "default": 0
+                },
+                {
+                    "type": "select",
+                    "id": "alignD",
+                    "label": "Text align",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                    ]
+                },
+                {
+                    "type": "header",
+                    "content": "Position for point mobile"
+                },
+                {
+                    "type": "range",
+                    "id": "topM",
+                    "label": "Top",
+                    "unit": "%",
+                    "min": -150,
+                    "max": 150,
+                    "step": 5,
+                    "default": 0
+                },
+                {
+                    "type": "range",
+                    "id": "leftM",
+                    "label": "left",
+                    "unit": "%",
+                    "min": -150,
+                    "max": 150,
+                    "step": 5,
+                    "default": 0
+                },
+                {
+                    "type": "select",
+                    "id": "alignM",
+                    "label": "Text align",
+                    "info": "Text align change when width < 998px",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "presets": [
+            {
+                "name": "Image with point(v)"
+            }
+    ],
+    "settings": [
+        {
+            "type": "header",
+            "content": "Spase decktop"
+        },
+        {
+            "type": "range",
+            "id": "st",
+            "label": "Space top",
+            "unit": "px",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 0
+        },
+        {
+            "type": "range",
+            "id": "sb",
+            "label": "Space bottom",
+            "unit": "px",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 0
+        },
+        {
+            "type": "header",
+            "content": "Spase mobile"
+        },
+        {
+            "type": "range",
+            "id": "stm",
+            "label": "Space top mobile",
+            "unit": "px",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 0
+        },
+        {
+            "type": "range",
+            "id": "sbm",
+            "label": "Space bottom mobile",
+            "unit": "px",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 0
+        },
+        {
+            "type": "header",
+            "content": "Settings for containe"
+        },
+        {
+            "type": "image_picker",
+            "id": "img_d",
+            "label": "Background image desktop"
+        },
+        {
+            "type": "image_picker",
+            "id": "img_m",
+            "label": "Background image mobile"
+        },
+        {
+            "type": "range",
+            "id": "height_img",
+            "label": "Height image",
+            "unit": "px",
+            "min": 100,
+            "max": 700,
+            "step": 50,
+            "default": 700
+        },
+        {
+            "type": "range",
+            "id": "width_img",
+            "label": "Width image",
+            "unit": "px",
+            "min": 1000,
+            "max": 1920,
+            "step": 20,
+            "default": 1440
+        },
+        {
+            "type": "range",
+            "id": "width_area",
+            "label": "Width of area for points",
+            "unit": "px",
+            "min": 100,
+            "max": 800,
+            "step": 50,
+            "default": 500
+        }
+    ]
+}
+{% endschema %}
+
+<style>
+    /* Image with points */
+.iwp {
+    position: relative;
+}
+
+.iwp_desktopImg {
+    display: block;
+}
+
+.iwp_mobileImg {
+    display: none;
+}
+
+.iwp_desktopImg,
+.iwp_mobileImg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.iwp_desktopImg img,
+.iwp_mobileImg img {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: center;
+       object-position: center;
+}
+
+.iwp_wrap-desktop {
+    display: block;
+}
+
+.iwp_wrap-mobile {
+    display: none;
+}
+
+.iwp_wrap {
+    position: relative;
+}
+
+.iwp_point-item {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.iwp_point-subItem {
+    background-color: #000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.iwp_point-text {
+    position: relative;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.iwp_point:hover .iwp_point-subItem {
+    background-color: #FFC000;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.iwp_point-text a,
+.iwp_point-text a svg,
+.iwp_point-text a svg path {
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.iwp_point-text:hover a {
+    color: #FFC000;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.iwp_point-text:hover a svg {
+    -webkit-transform: rotate(40deg);
+        -ms-transform: rotate(40deg);
+            transform: rotate(40deg);
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.iwp_point-text:hover a svg path {
+    fill: #FFC000;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.iwp_point.__activePoint .iwp_point-text {
+    opacity: 1;
+    pointer-events: all;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.iwp_point.__activePoint .iwp_point-subItem {
+    background-color: #FFC000;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.iwp_point-text a {
+    position: absolute;
+    right: -65px;
+    bottom: 0;
+    font-family: Rajdhani;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    gap: 10px;
+    width: 100%;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.iwp_point-text a span {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    gap: 5px;
+}
+
+.point_line {
+    position: absolute;
+    right: -305px;
+    bottom: -6px;
+}
+
+.point_lineM {
+    display: none;
+}
+
+.iwp_point-text-align-right .point_line,
+.iwp_point-text-align-ight .point_line {
+    position: absolute;
+    right: 25px;
+    bottom: 15px;
+    -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+}
+
+.iwp_point-text-align-right.iwp_point-text a,
+.iwp_point-text-align-ight.iwp_point-text a {
+    position: absolute;
+    right: 300px;
+    bottom: 40px;
+}
+
+@media(max-width:998px) {
+    .iwp_wrap-mobile {
+        display: block;
+    }
+
+    .iwp_wrap-desktop {
+        display: none;
+    }
+}
+
+@media(max-width: 768px) {
+    .iwp_point-text a {
+        font-size: 12px;
+    }
+
+    .point_line {
+        display: none;
+    }
+
+    .point_line.point_lineM {
+        display: block;
+        width: 200px;
+    }
+
+    .iwp_point-text-align-left .point_line.point_lineM {
+        right: -183px;
+        top: -3px;
+    }
+
+    .iwp_point-text-align-left.iwp_point-text a {
+        position: absolute;
+        right: -24px;
+        bottom: -18px;
+    }
+
+    .iwp_point-text-align-ight .point_line.point_lineM,
+    .iwp_point-text-align-right .point_line.point_lineM {
+        right: 14px;
+        bottom: 21px;
+    }
+
+    .iwp_point-text-align-ight.iwp_point-text a,
+    .iwp_point-text-align-right.iwp_point-text a {
+        right: 178px;
+        bottom: 40px;
+    }
+}
+
+@media(max-width: 568px) {
+    .iwp_desktopImg {
+        display: none;
+    }
+
+    .iwp_mobileImg {
+        display: block;
+    }
+}
+
+@media(max-width: 350px) {
+    .point_line.point_lineM {
+        display: none;
+    }
+
+    .iwp_point-text-align-left.iwp_point-text a {
+        position: absolute;
+        right: -8px;
+        bottom: -20px;
+        text-decoration: underline;
+    }
+
+    .iwp_point-text-align-ight.iwp_point-text a,
+    .iwp_point-text-align-right.iwp_point-text a {
+        right: 159px;
+        bottom: 29px;
+        text-decoration: underline;
+    }
+}
+</style>
